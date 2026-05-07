@@ -7,10 +7,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: حافظ على السرية عند الرفع الحقيقي
 SECRET_KEY = 'django-insecure-cge%dwj5pup@ut80$^=ojx4vff(fg$k=xj(rta$-4mhx!1(1ij'
 
-# تم التعديل لـ False عشان الرفع الحقيقي
-DEBUG = False
+# رجعناها True عشان الصور تظهر وأنت بتجرب على جهازك
+DEBUG = True
 
-# السماح بروابط Render
+# السماح بجميع الروابط
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -26,7 +26,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # الترتيب ده مهم جداً للصور
+    'whitenoise.middleware.WhiteNoiseMiddleware', # مهم جداً للملفات الثابتة
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,11 +81,12 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles' 
 
-# إعدادات إضافية لضمان عمل الصور بشكل صحيح
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# إعدادات الملفات الثابتة
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# إعدادات ملفات الميديا (الصور اللي بترفعها للمنتجات)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
