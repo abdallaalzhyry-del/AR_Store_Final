@@ -13,10 +13,10 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# كود إنشاء مستخدم مدير جديد تلقائياً
+# كود إنشاء مستخدم مدير جديد تلقائياً ببيانات بسيطة
 try:
-    if not User.objects.filter(username='abdalla_new').exists():
-        User.objects.create_superuser('abdalla_new', 'admin@test.com', 'Zuhairi2026@')
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser('admin', 'admin@test.com', 'admin1234')
         print("Admin user created successfully!")
 except Exception as e:
     print(f"Error creating admin: {e}")
