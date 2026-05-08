@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 
 # المسار الرئيسي للمشروع
@@ -7,10 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: حافظ على السرية عند الرفع الحقيقي
 SECRET_KEY = 'django-insecure-cge%dwj5pup@ut80$^=ojx4vff(fg$k=xj(rta$-4mhx!1(1ij'
 
-# رجعناها True عشان الصور تظهر وأنت بتجرب على جهازك
 DEBUG = True
 
-# السماح بجميع الروابط
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -21,12 +20,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'products', # الـ App بتاعك
+    'products', 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # مهم جداً للملفات الثابتة
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -55,12 +54,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'my_shop.wsgi.application'
 
-# Database
+# --- ربط قاعدة بيانات Neon Postgres ---
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://neondb_owner:npg_5voDQSRq2PkU@ep-twilight-mode-aprd3dcq.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 # Password validation
@@ -77,15 +77,13 @@ TIME_ZONE = 'Africa/Cairo'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles' 
-
-# إعدادات الملفات الثابتة
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# إعدادات ملفات الميديا (الصور اللي بترفعها للمنتجات)
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
