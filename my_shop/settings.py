@@ -99,4 +99,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Deployment trigger
+# Deployment trigger# Trigger 2026
