@@ -88,18 +88,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- إعدادات Cloudinary لرفع الصور ---
+# --- الإعدادات الصحيحة والنهائية لـ Cloudinary ---
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dv9yv68sh', 
-    'API_KEY': '742337775988225',
-    'API_SECRET': '4U_X_IayC0Wn_1G29L8-oI2i2Fw'
+    'CLOUD_NAME': 'dkdlnqlpr', 
+    'API_KEY': '941419429723414',
+    'API_SECRET': 'UdV_KU7amXu4Cs9t7d6v4RUo1nA'
 }
 
-# تفعيل الإعدادات برمجياً لضمان عدم حدوث ValueError
+# تفعيل الإعدادات برمجياً لضمان الربط الصحيح
 cloudinary.config(
     cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
     api_key = CLOUDINARY_STORAGE['API_KEY'],
-    api_secret = CLOUDINARY_STORAGE['API_SECRET']
+    api_secret = CLOUDINARY_STORAGE['API_SECRET'],
+    secure = True
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
