@@ -14,12 +14,14 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
+    'cloudinary_storage', # التعديل: لازم يكون قبل staticfiles
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary', # التعديل: إضافة مكتبة السحاب
     'products', 
 ]
 
@@ -83,8 +85,18 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
+# --- التعديل: Media files باستخدام Cloudinary ---
+# ده عشان يحل مشكلة الـ Read-only file system في Vercel
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dv9yv68sh', 
+    'API_KEY': '742337775988225',
+    'API_SECRET': '4U_X_IayC0Wn_1G29L8-oI2i2Fw'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'# Deployment trigger
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Deployment trigger
