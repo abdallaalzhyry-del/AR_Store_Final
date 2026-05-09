@@ -1,6 +1,9 @@
 import os
 import dj_database_url
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # المسار الرئيسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,14 +17,14 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage', # التعديل: لازم يكون قبل staticfiles
+    'cloudinary_storage', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary', # التعديل: إضافة مكتبة السحاب
+    'cloudinary', 
     'products', 
 ]
 
@@ -85,13 +88,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- التعديل: Media files باستخدام Cloudinary ---
-# ده عشان يحل مشكلة الـ Read-only file system في Vercel
+# --- إعدادات Cloudinary لرفع الصور ---
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dv9yv68sh', 
     'API_KEY': '742337775988225',
     'API_SECRET': '4U_X_IayC0Wn_1G29L8-oI2i2Fw'
 }
+
+# تفعيل الإعدادات برمجياً لضمان عدم حدوث ValueError
+cloudinary.config(
+    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key = CLOUDINARY_STORAGE['API_KEY'],
+    api_secret = CLOUDINARY_STORAGE['API_SECRET']
+)
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -99,4 +108,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Deployment trigger# Trigger 2026
+
+# Deployment trigger Final Fix 2026
