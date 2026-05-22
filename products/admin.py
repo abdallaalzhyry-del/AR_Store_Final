@@ -17,10 +17,12 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     
-    # تأكد إن الأسماء هنا مطابقة للوظائف (Functions) اللي تحت
-    list_display = ('display_image', 'name', 'price', 'status', 'status_badge', 'delete_button')
-    list_editable = ('price', 'status') 
-    list_filter = ('status',)
+    # ضيفنا 'category' هنا عشان تظهر في الجدول بره
+    list_display = ('display_image', 'name', 'category', 'price', 'status', 'status_badge', 'delete_button')
+    # ضيفنا 'category' هنا عشان تعدلها بسرعة من غير ما تدخل جوه المنتج
+    list_editable = ('price', 'status', 'category') 
+    # ضيفنا 'category' في الفلتر عشان تختار "البنطلونات" بس مثلاً
+    list_filter = ('status', 'category')
     search_fields = ('name',)
 
     # 1. شريط الحالة
@@ -33,9 +35,8 @@ class ProductAdmin(admin.ModelAdmin):
         )
     status_badge.short_description = 'شكل الحالة'
 
-    # 2. زرار المسح السريع (تعديل السطر اللي كان بيعمل إيرور)
+    # 2. زرار المسح السريع
     def delete_button(self, obj):
-        # الكود ده بيجيب اسم الـ app أوتوماتيك عشان ميحصلش إيرور تاني
         app_label = obj._meta.app_label
         model_name = obj._meta.model_name
         delete_url = reverse(f'admin:{app_label}_{model_name}_delete', args=[obj.pk])
@@ -52,7 +53,7 @@ class ProductAdmin(admin.ModelAdmin):
         return "No Image"
     display_image.short_description = 'الصورة'
 
-# تسجيل الموديل (تأكد إنه مش متسجل مرتين في الملف)
+# تسجيل الموديل
 if admin.site.is_registered(Product):
     admin.site.unregister(Product)
 admin.site.register(Product, ProductAdmin)
