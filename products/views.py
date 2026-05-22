@@ -2,16 +2,15 @@ from django.shortcuts import render
 from .models import Product
 
 def product_list(request):
-    # بنشوف الزبون داس على أنهي قسم (لو مفيش، بيبقى None)
+    # بنجيب القسم اللي الزبون اختاره من اللينك
     category_name = request.GET.get('category')
     
     if category_name:
-        # لو اختار قسم، هات منتجات القسم ده بس
+        # لو اختار قسم معين
         products = Product.objects.filter(category=category_name)
     else:
-        # لو فاتح الصفحة الرئيسية لأول مرة، نعرض كل المنتجات
-        # أو ممكن تخليها تعرض قسم معين زي 'tshirt' فقط
+        # لو لسه فاتح الموقع، نعرض كل حاجة
         products = Product.objects.all()
         
-    # التعديل هنا: اسم الملف index.html والمتغير اسمه items
+    # ركز في السطر اللي تحت ده، هو ده سر الحل:
     return render(request, 'products/index.html', {'items': products})
