@@ -9,7 +9,9 @@ def product_list(request):
         # لو اختار قسم، هات منتجات القسم ده بس
         products = Product.objects.filter(category=category_name)
     else:
-        # ده اللي هيظهر أول ما يفتح الموقع (التيشرتات)
-        products = Product.objects.filter(category='tshirt')
+        # لو فاتح الصفحة الرئيسية لأول مرة، نعرض كل المنتجات
+        # أو ممكن تخليها تعرض قسم معين زي 'tshirt' فقط
+        products = Product.objects.all()
         
-    return render(request, 'products/product_list.html', {'products': products})
+    # التعديل هنا: اسم الملف index.html والمتغير اسمه items
+    return render(request, 'products/index.html', {'items': products})
