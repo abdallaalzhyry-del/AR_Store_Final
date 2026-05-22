@@ -41,10 +41,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'my_shop.urls'
 
+# --- تعديل الـ TEMPLATES لحل مشكلة TemplateDoesNotExist نهائياً ---
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], 
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'products', 'templates'),
+        ], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,44 +74,39 @@ DATABASES = {
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'ar' 
-TIME_ZONE = 'Africa/Cairo' 
+LANGUAGE_CODE = 'ar'
+TIME_ZONE = 'Africa/Cairo'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles' 
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
-# --- الإعدادات الصحيحة والنهائية لـ Cloudinary ---
+# Cloudinary Storage settings
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dkdlnqlpr', 
-    'API_KEY': '941419429723414',
-    'API_SECRET': 'UdV_KU7amXu4Cs9t7d6v4RUo1nA'
+    'CLOUD_NAME': 'dkdlnqlpr',
+    'API_KEY': '482276949318357',
+    'API_SECRET': 'nbeO_gSNDp1hNsh4BvW91pYtK98'
 }
 
-# تفعيل الإعدادات برمجياً لضمان الربط الصحيح
-cloudinary.config(
-    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
-    api_key = CLOUDINARY_STORAGE['API_KEY'],
-    api_secret = CLOUDINARY_STORAGE['API_SECRET'],
-    secure = True
-)
-
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Deployment trigger Final Fix 2026
