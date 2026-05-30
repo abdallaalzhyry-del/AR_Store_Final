@@ -11,6 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: حافظ على السرية عند الرفع الحقيقي
 SECRET_KEY = 'django-insecure-cge%dwj5pup@ut80$^=ojx4vff(fg$k=xj(rta$-4mhx!1(1ij'
 
+# DEBUG خليها True دلوقتي عشان لو فيه إيرور يظهرلنا سببه إيه بالظبط
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
