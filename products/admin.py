@@ -10,50 +10,58 @@ admin.site.index_title = "إدارة منتجات البراند"
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
-    extra = 3
+    extra = 1 # قللتها لـ 1 عشان الزحمة، وممكن تضيف أكتر يدوي
     verbose_name = "صورة في المعرض"
     verbose_name_plural = "صور المعرض الإضافية"
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     
-    # ضيفنا 'category' هنا عشان تظهر في الجدول بره
-    list_display = ('display_image', 'name', 'category', 'price', 'status', 'status_badge', 'delete_button')
-    # ضيفنا 'category' هنا عشان تعدلها بسرعة من غير ما تدخل جوه المنتج
-    list_editable = ('price', 'status', 'category') 
-    # ضيفنا 'category' في الفلتر عشان تختار "البنطلونات" بس مثلاً
-    list_filter = ('status', 'category')
+    # ترتيب الخانات في الجدول (الصورة أول حاجة عشان الشكل)
+    list_display = ('display_image', 'name', 'category', 'price', 'status_badge', 'delete_button')
+    
+    # الخانات اللي تقدر تعدلها من بره (التصنيف والسعر والحالة)
+    list_editable = ('category', 'price') 
+    
+    # الفلتر الجانبي (هو ده اللي هينظم لك "تيشرت" أو "بنطلون" في ثانية)
+    list_filter = ('category', 'status')
+    
+    # البحث باسم المنتج
     search_fields = ('name',)
+    
+    # عدد المنتجات في الصفحة الواحدة (عشان الزحمة)
+    list_per_page = 20
 
-    # 1. شريط الحالة
+    # 1. شريط الحالة بشكل احترافي
     def status_badge(self, obj):
-        colors = {'available': '#27ae60', 'out_of_stock': '#e74c3c', 'last_piece': '#f39c12'}
+        colors = {
+            'available': '#27ae60',    # أخضر
+            'out_of_stock': '#e74c3c', # أحمر
+            'last_piece': '#f39c12'    # برتقالي
+        }
         return format_html(
-            '<span style="background: {}; color: white; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 11px;">{}</span>',
+            '<span style="background: {}; color: white; padding: 5px 12px; border-radius: 20px; '
+            'font-weight: bold; font-size: 11px; display: inline-block; min-width: 80px; text-align: center;">{}</span>',
             colors.get(obj.status, '#333'),
             obj.get_status_display()
         )
-    status_badge.short_description = 'شكل الحالة'
+    status_badge.short_description = 'حالة المخزون'
 
-    # 2. زرار المسح السريع
+    # 2. زرار الحذف السريع بنمط أيقونة
     def delete_button(self, obj):
         app_label = obj._meta.app_label
         model_name = obj._meta.model_name
         delete_url = reverse(f'admin:{app_label}_{model_name}_delete', args=[obj.pk])
         return format_html(
-            '<a href="{}" style="color: #e74c3c; font-size: 18px; text-decoration: none;" title="حذف">🗑️</a>',
+            '<a href="{}" style="background: #ff4d4d; color: white; padding: 4px 8px; '
+            'border-radius: 5px; text-decoration: none; font-size: 14px;" title="حذف سريع">حذف 🗑️</a>',
             delete_url
         )
-    delete_button.short_description = 'حذف سريع'
+    delete_button.short_description = 'الإجراءات'
 
-    # 3. عرض الصورة المصغرة
+    # 3. عرض الصورة المصغرة بشكل دائري أو مربع أنيق
     def display_image(self, obj):
         if obj.image:
-            return format_html('<img src="{}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;" />', obj.image.url)
-        return "No Image"
-    display_image.short_description = 'الصورة'
-
-# تسجيل الموديل
-if admin.site.is_registered(Product):
-    admin.site.unregister(Product)
-admin.site.register(Product, ProductAdmin)
+            return format_html(
+                '<img src="{}" style="width: 55px; height: 55px; border-radius: 10px; '
+                'border: 1

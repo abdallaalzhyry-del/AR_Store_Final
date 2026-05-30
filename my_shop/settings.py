@@ -30,7 +30,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # مسؤول عن ملفات الـ CSS في الرفع
+    'whitenoise.middleware.WhiteNoiseMiddleware', # لإصلاح ملفات الـ CSS والـ JS في الرفع
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -111,7 +111,8 @@ STORAGES = {
     },
 }
 
-# إعدادات إضافية لضمان عمل Whitenoise بسلاسة
+# إعدادات إضافية لضمان عمل Whitenoise وفهم أنواع الملفات صح
 WHITENOISE_MANIFEST_STRICT = False
+WHITENOISE_MIME_TYPES = {'.js': 'application/javascript', '.css': 'text/css'}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
