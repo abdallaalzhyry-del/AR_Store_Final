@@ -41,7 +41,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'my_shop.urls'
 
-# --- تعديل الـ TEMPLATES لحل مشكلة TemplateDoesNotExist نهائياً ---
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,34 +71,21 @@ DATABASES = {
     )
 }
 
-# Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
 LANGUAGE_CODE = 'ar'
 TIME_ZONE = 'Africa/Cairo'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Cloudinary Storage settings
 CLOUDINARY_STORAGE = {
@@ -108,15 +94,15 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'nbeO_gSNDp1hNsh4BvW91pYtK98'
 }
 
-# تفعيل إعدادات الـ Config الإجبارية لمنع الإيرور على Vercel
+# تكوين إجباري مباشر لمكتبة Cloudinary (لحل مشكلة cloud_name)
 cloudinary.config(
-    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
-    api_key = CLOUDINARY_STORAGE['API_KEY'],
-    api_secret = CLOUDINARY_STORAGE['API_SECRET'],
+    cloud_name = 'dkdlnqlpr',
+    api_key = '482276949318357',
+    api_secret = 'nbeO_gSNDp1hNsh4BvW91pYtK98',
     secure = True
 )
 
-# النظام الجديد لإدارة الملفات المرفوعة والـ Static المتوافق مع Django 6+
+# نظام التخزين المتوافق مع Django 6
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
