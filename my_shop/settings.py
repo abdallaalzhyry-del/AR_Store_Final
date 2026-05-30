@@ -108,5 +108,22 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'nbeO_gSNDp1hNsh4BvW91pYtK98'
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# تفعيل إعدادات الـ Config الإجبارية لمنع الإيرور على Vercel
+cloudinary.config(
+    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key = CLOUDINARY_STORAGE['API_KEY'],
+    api_secret = CLOUDINARY_STORAGE['API_SECRET'],
+    secure = True
+)
+
+# النظام الجديد لإدارة الملفات المرفوعة والـ Static المتوافق مع Django 6+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
