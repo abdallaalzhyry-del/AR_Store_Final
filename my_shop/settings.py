@@ -30,7 +30,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware', # مسؤول عن ملفات الـ CSS في الرفع
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -94,7 +94,6 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'nbeO_gSNDp1hNsh4BvW91pYtK98'
 }
 
-# تكوين إجباري مباشر لمكتبة Cloudinary (لحل مشكلة cloud_name)
 cloudinary.config(
     cloud_name = 'dkdlnqlpr',
     api_key = '482276949318357',
@@ -102,14 +101,17 @@ cloudinary.config(
     secure = True
 )
 
-# نظام التخزين المتوافق مع Django 6
+# نظام التخزين المحدث لإصلاح شكل صفحة الأدمن
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+# إعدادات إضافية لضمان عمل Whitenoise بسلاسة
+WHITENOISE_MANIFEST_STRICT = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
