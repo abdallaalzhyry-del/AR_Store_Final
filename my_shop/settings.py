@@ -91,10 +91,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # تأمين عدم ضرب المسار لو فولدر static مش موجود محلياً
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.exists(os.path.join(BASE_DIR, 'static')) else []
 
-# إعدادات روابط الميديا المرفوعة على Cloudinary
+# إعدادات روابط الميديا المرفوعة
 MEDIA_URL = '/media/'
 
-# Cloudinary Storage settings
+# Cloudinary Storage settings (احتفظنا بها مؤقتاً لحين تعديل الحساب لاحقاً)
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dkdlnqlpr',
     'API_KEY': '482276949318357',
@@ -108,10 +108,10 @@ cloudinary.config(
     secure = True
 )
 
-# نظام التخزين الآمن والمستقر لـ Django 6 على Vercel (تم تعديل الـ staticfiles للنوع الآمن لمنع الكراش)
+# تم تحويل نظام الميديا مؤقتاً للنظام المحلي لمنع كراش الـ api_key
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage", 
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage", 
