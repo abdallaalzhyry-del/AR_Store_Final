@@ -126,3 +126,5 @@ WHITENOISE_MIME_TYPES = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_ROOT = '/tmp/media/'
+
