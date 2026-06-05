@@ -1,5 +1,4 @@
 from django.db import models
-from cloudinary.models import CloudinaryField 
 
 class Product(models.Model):
     # خيارات الحالة
@@ -27,7 +26,8 @@ class Product(models.Model):
         verbose_name="القسم"
     )
     
-    image = CloudinaryField(null=True, blank=True, verbose_name="الصورة الأساسية") 
+    # تم التعديل إلى ImageField محلي لمنع كراش الـ api_key
+    image = models.ImageField(upload_to='products/', null=True, blank=True, verbose_name="الصورة الأساسية") 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available', verbose_name="حالة المنتج")
 
     class Meta:
@@ -39,7 +39,9 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE, verbose_name="المنتج")
-    image = CloudinaryField(null=True, blank=True, verbose_name="صورة إضافية")
+    
+    # تم التعديل إلى ImageField محلي أيضاً للصور الإضافية
+    image = models.ImageField(upload_to='products/gallery/', null=True, blank=True, verbose_name="صورة إضافية")
 
     class Meta:
         verbose_name = "صورة إضافية"
