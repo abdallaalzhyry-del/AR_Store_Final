@@ -59,9 +59,16 @@ class ProductAdmin(admin.ModelAdmin):
         )
     delete_button.short_description = 'الإجراءات'
 
-    # 3. عرض الصورة المصغرة بشكل دائري أو مربع أنيق
+    # 3. عرض الصورة المصغرة بشكل دائري أو مربع أنيق (تم إصلاح السطر المقطوع وقفل الأقواس)
     def display_image(self, obj):
         if obj.image:
             return format_html(
                 '<img src="{}" style="width: 55px; height: 55px; border-radius: 10px; '
-                'border: 1
+                'border: 1px solid #ddd; object-fit: cover;" />',
+                obj.image.url
+            )
+        return "لا توجد صورة"
+    display_image.short_description = 'الصورة'
+
+# تسجيل الموديل في الأدمن (تأكد إن السطر ده موجود في الآخر عشان يشتغل)
+admin.site.register(Product, ProductAdmin)
