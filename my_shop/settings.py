@@ -95,16 +95,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.exists(os.path.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/tmp/media/'
 
-# ✅ تحديث الـ Keys الرسمية الشغالة 100% اللي ظهرت في الجدول
+# ✅ تم تحديث الـ API KEY الحقيقي الشغال من الـ Dashboard لمنع إيرور Invalid API Key
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dkdlnqlpr',
-    'API_KEY': '482276949318357',
+    'API_KEY': '941419429723414',  
     'API_SECRET': 'nbeO_gSNDp1hNsh4BvW91pYtK98'
 }
 
 cloudinary.config(
     cloud_name = 'dkdlnqlpr',
-    api_key = '482276949318357',
+    api_key = '941419429723414',     
     api_secret = 'nbeO_gSNDp1hNsh4BvW91pYtK98',
     secure = True
 )
