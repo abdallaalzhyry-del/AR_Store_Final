@@ -93,8 +93,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.exists(os.path.
 
 # إعدادات روابط الميديا المرفوعة
 MEDIA_URL = '/media/'
+MEDIA_ROOT = '/tmp/media/'
 
-# Cloudinary Storage settings (احتفظنا بها مؤقتاً لحين تعديل الحساب لاحقاً)
+# ✅ تحديث الـ Keys الرسمية الشغالة 100% اللي ظهرت في الجدول
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dkdlnqlpr',
     'API_KEY': '482276949318357',
@@ -108,10 +109,10 @@ cloudinary.config(
     secure = True
 )
 
-# تم تحويل نظام الميديا مؤقتاً للنظام المحلي لمنع كراش الـ api_key
+# ✅ تفعيل الـ Cloudinary Storage للـ default رسمياً عشان يرفع أونلاين
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage", 
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage", 
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage", 
@@ -126,5 +127,3 @@ WHITENOISE_MIME_TYPES = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-MEDIA_ROOT = '/tmp/media/'
-
