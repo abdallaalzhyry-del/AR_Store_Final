@@ -14,11 +14,11 @@ SECRET_KEY = 'django-insecure-cge%dwj5pup@ut80$^=ojx4vff(fg$k=xj(rta$-4mhx!1(1ij
 # DEBUG خليها True دلوقتي عشان لو فيه إيرور يظهرلنا سببه إيه بالظبط
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost', '*']
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage', 
+    'cloudinary_storage', # لازم تفضل فوق الـ staticfiles
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,9 +84,15 @@ TIME_ZONE = 'Africa/Cairo'
 USE_I18N = True
 USE_TZ = True
 
+# --- إعدادات الملفات الثابتة والميديا المحدثة لـ Vercel ---
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# تأمين عدم ضرب المسار لو فولدر static مش موجود محلياً
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.exists(os.path.join(BASE_DIR, 'static')) else []
+
+# إعدادات روابط الميديا المرفوعة على Cloudinary
+MEDIA_URL = '/media/'
 
 # Cloudinary Storage settings
 CLOUDINARY_STORAGE = {
@@ -102,18 +108,21 @@ cloudinary.config(
     secure = True
 )
 
-# نظام التخزين المحدث لإصلاح شكل صفحة الأدمن
+# نظام التخزين الآمن والمستقر لـ Django 6 على Vercel (تم تعديل الـ staticfiles للنوع الآمن لمنع الكراش)
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage", 
     },
 }
 
-# إعدادات إضافية لضمان عمل Whitenoise وفهم أنواع الملفات صح
+# إعدادات WhiteNoise لمنع كراش السيرفر وفهم التنسيقات
 WHITENOISE_MANIFEST_STRICT = False
-WHITENOISE_MIME_TYPES = {'.js': 'application/javascript', '.css': 'text/css'}
+WHITENOISE_MIME_TYPES = {
+    '.js': 'application/javascript', 
+    '.css': 'text/css'
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
