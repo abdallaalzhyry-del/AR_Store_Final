@@ -19,7 +19,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="السعر")
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='tshirt', verbose_name="القسم")
     
-    # تم التعديل: شيلنا 'image' الأولى عشان نمنع تداخل الـ verbose_name
+    # CloudinaryField مهيأ للعمل مع الـ Storage الذي ضبطناه في settings.py
     image = CloudinaryField(null=True, blank=True, verbose_name="الصورة الأساسية") 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available', verbose_name="حالة المنتج")
 
@@ -33,7 +33,6 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE, verbose_name="المنتج")
     
-    # تم التعديل هنا أيضاً
     image = CloudinaryField(null=True, blank=True, verbose_name="صورة إضافية")
 
     class Meta:
